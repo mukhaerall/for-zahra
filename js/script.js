@@ -120,7 +120,8 @@ function launchConfetti() {
   area.innerHTML = "";
   if (reduce) return;
   const colors = ["#e9a0b6", "#d8c4ed", "#d6e6d5", "#f6d7a7", "#f4b6c8"];
-  for (let i = 0; i < 90; i++) {
+  const total = innerWidth < 600 ? 45 : 90;
+  for (let i = 0; i < total; i++) {
     const p = document.createElement("i");
     const s = 6 + Math.random() * 7;
     p.style.cssText = `left:${Math.random() * 100}%;width:${s}px;height:${s * (Math.random() > 0.5 ? 1 : 1.8)}px;background:${colors[i % 5]};border-radius:${Math.random() > 0.6 ? "50%" : "2px"};--dx:${(Math.random() - 0.5) * 160}px;animation-delay:${Math.random() * 1.2}s;animation-duration:${2.6 + Math.random() * 2.2}s`;
@@ -190,6 +191,9 @@ function isLocked() { return LOCK_UNTIL_BIRTHDAY && daysLeft() > 0 && !location.
 
 function fade(to, ms, done) {
   const from = audio.volume, t0 = performance.now();
+  audio.volume = from > 0.5 ? 0.4 : 0.6; // iOS ignores volume changes
+  if (audio.volume === from) { done && done(); return; }
+  audio.volume = from;
   (function s(n) {
     const p = Math.min((n - t0) / ms, 1);
     audio.volume = from + (to - from) * p;
