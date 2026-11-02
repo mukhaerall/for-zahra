@@ -23,6 +23,7 @@
 
   <main class="shell">
     <div class="topline"><span>PERSONAL LITTLE CORNER</span><span>09 · 11 · 2026</span></div>
+    <nav class="steps" id="steps" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i></nav>
 
     <section class="screen active" id="intro" aria-labelledby="introTitle">
       <div class="window-card intro-card">
@@ -33,10 +34,11 @@
           <p class="eyebrow">hello, birthday girl</p>
           <h1 id="introTitle">Hi, <em>Zahra.</em></h1>
           <p class="intro-copy">Ada sesuatu kecil yang ingin disampaikan.<br>Nothing complicated, just a little surprise for you.</p>
-          <div class="loading-line"><span></span></div>
-          <p class="mono status" id="statusText">checking something special...</p>
-          <button class="primary-btn" id="startBtn">Open your little surprise <span>↗</span></button>
+          <div class="loader" id="loader" role="progressbar" aria-label="Loading" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="loader-track"><span id="loaderBar"></span></div><b id="loaderPct">0%</b></div>
+          <p class="mono status" id="statusText" aria-live="polite">booting little surprise...</p>
+          <button class="primary-btn" id="startBtn" disabled>Open your little surprise <span>↗</span></button>
           <p class="micro-note">best opened with a little curiosity ♡</p>
+          <p class="mono countdown" id="countdown"></p>
         </div>
       </div>
       <div class="floating-note note-left">made with<br>a little code <b>♡</b></div>
@@ -51,13 +53,15 @@
           <p class="eyebrow">oops, one tiny issue</p>
           <h2 id="errorTitle">Something is<br><em>too lovely</em> today.</h2>
           <div class="terminal">
-            <p><span>></span> birthday.detected(<b>"Zahra"</b>)</p>
-            <p><span>></span> happiness.level = <b>high</b></p>
-            <p><span>></span> reason = <b>"it's your day!"</b></p>
+            <p><span>&gt;</span> birthday.detected(<b>"Zahra"</b>)</p>
+            <p><span>&gt;</span> happiness.level = <b>high</b></p>
+            <p><span>&gt;</span> reason = <b>"it's your day!"</b></p>
             <p class="terminal-warning">! recommendation: celebrate immediately</p>
           </div>
           <p class="body-copy">The system found a very important date.<br>Should we fix this... by celebrating?</p>
           <button class="primary-btn" id="fixBtn">FIX THIS ISSUE <span>♡</span></button>
+          <div class="fix-progress" id="fixProgress"><span id="fixBar"></span></div>
+          <p class="mono status fix-status" id="fixStatus" aria-live="polite"></p>
         </div>
       </div>
     </section>
@@ -65,17 +69,30 @@
     <section class="screen" id="birthday" aria-labelledby="birthdayTitle">
       <div class="birthday-wrap">
         <div class="confetti" id="confetti" aria-hidden="true"></div>
-        <div class="cake-art" aria-hidden="true"><span class="candle">✦</span><span class="cake">🎂</span><span class="cake-heart">♡</span></div>
+        <div class="cake-art" aria-hidden="true"><button class="candle" id="candleBtn" aria-label="Tiup lilin">✦</button><span class="cake">🎂</span><span class="cake-heart">♡</span></div>
         <p class="eyebrow">today is all about you</p>
         <h2 id="birthdayTitle">Happy Birthday,<br><em>Zahra!</em></h2>
         <p class="birthday-lead">A little reminder that you deserve<br>all the good things coming your way.</p>
         <div class="date-pill">MONDAY · 09 NOVEMBER 2026</div>
-        <button class="primary-btn" id="letterBtn">There's a little letter for you <span>↓</span></button>
+        <p class="mono status" id="candleHint" aria-live="polite">tap the candle to make a wish ✦</p>
+        <button class="primary-btn" id="letterBtn">Catch a few hearts first <span>♡</span></button>
+      </div>
+    </section>
+
+    <section class="screen" id="game" aria-labelledby="gameTitle">
+      <div class="game-card">
+        <p class="eyebrow">tiny game · 15 seconds</p>
+        <h2 id="gameTitle">Catch the <em>hearts</em></h2>
+        <div class="game-hud"><span>score <b id="gameScore">0</b></span><span>time <b id="gameTime">15</b></span></div>
+        <div class="game-area" id="gameArea"><p class="game-msg" id="gameMsg">tap the hearts before they fall</p></div>
+        <button class="primary-btn" id="gameStart">Start ♡</button><br>
+        <button class="text-btn" id="gameSkip">skip to the letter →</button>
       </div>
     </section>
 
     <section class="screen" id="letter" aria-labelledby="letterTitle">
-      <div class="letter-layout">
+      <button class="envelope" id="envelope" aria-label="Open the envelope"><span class="env-flap"></span><span class="env-heart">♡</span><span class="env-hint">tap to open</span></button>
+      <div class="letter-layout" id="letterLayout" hidden>
         <div class="letter-side"><span class="side-flower">✿</span><p>JUST FOR YOU</p><span class="side-heart">♡</span></div>
         <article class="letter-paper">
           <div class="paper-top"><span>09.11.26</span><span>୨୧</span></div>
@@ -90,10 +107,20 @@
           <div class="letter-sign">Take care, okay? <span>♡</span></div>
         </article>
       </div>
-      <button class="text-btn" id="lastBtn">one last thing <span>→</span></button>
+      <button class="text-btn" id="lastBtn" hidden>one last thing <span>→</span></button>
+    </section>
+
+    <section class="screen" id="gallery" aria-labelledby="galleryTitle">
+      <div class="gallery-wrap">
+        <p class="eyebrow">little moments</p>
+        <h2 id="galleryTitle">A few things <em>worth keeping</em></h2>
+        <div class="polaroids"><figure class="polaroid"><div class="photo">✿</div><figcaption>momen kecil pertama</figcaption></figure><figure class="polaroid"><div class="photo">✿</div><figcaption>hari yang menyenangkan</figcaption></figure><figure class="polaroid"><div class="photo">✿</div><figcaption>tawa yang diingat</figcaption></figure></div>
+        <button class="text-btn" id="galleryBtn">one last thing <span>→</span></button>
+      </div>
     </section>
 
     <section class="screen" id="ending" aria-labelledby="endingTitle">
+      <div class="hearts" id="hearts" aria-hidden="true"></div>
       <div class="ending-card">
         <div class="ending-stars">✧　♡　✦</div>
         <p class="eyebrow">that's the little surprise</p>
@@ -108,7 +135,7 @@
       </div>
     </section>
 
-    <footer><span>crafted with <b>♡</b> & a little bit of code</span><span>© 2026 · for Zahra</span></footer>
+    <footer><span>crafted with <b>♡</b> &amp; a little bit of code</span><span>© 2026 · for Zahra</span></footer>
   </main>
   <script src="js/script.js"></script>
 </body>

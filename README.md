@@ -28,3 +28,18 @@ If you don't add a file, the website still works; the music toggle will show a s
 - The current birthday date is set to 09 November 2026.
 
 No backend, database, API key, or build step is required.
+
+## What's new in v2
+- Real loading sequence on the intro (progress bar, percentage, rotating status text); the button unlocks at 100%.
+- "FIX THIS ISSUE" now runs a short compile-style loading before the birthday screen.
+- Smooth fade transitions between screens, step dots, typed-in terminal lines, letter paragraphs that appear one by one.
+- Richer confetti, floating hearts on the last screen, tiny sparkles on tap.
+- Respects `prefers-reduced-motion`; fixed `>` and `&` HTML entities.
+
+## What's new in v3
+- Tap the candle on the birthday screen to blow it out and make a wish.
+- Envelope that opens before the letter; a 15-second "catch the hearts" mini game.
+- Polaroid gallery: in `index.html`, replace the `✿` inside each `<div class="photo">` with `<img src="assets/photos/1.jpg" alt="">` (and edit the captions).
+- "psst... one more click?" now cycles through several wishes (edit the `wishes` list in `js/script.js`).
+- Countdown on the intro. Set `LOCK_UNTIL_BIRTHDAY = true` in `js/script.js` to lock the surprise until 09 Nov (add `?preview` to the URL to peek).
+- Music fades in/out. Suggested: soft lo-fi piano, music box or kalimba, royalty-free (Pixabay Music, YouTube Audio Library), under ~3 MB, saved as `assets/music/instrumental.mp3`.
