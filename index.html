@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fff4f7">
+  <meta name="description" content="A little birthday surprise made just for Zahra.">
+  <title>for Zahra ♡</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <button class="music-toggle" id="musicToggle" aria-label="Putar musik instrumental">
+    <span class="music-dot"></span><span id="musicLabel">sound off</span>
+  </button>
+  <audio id="bgMusic" loop preload="none">
+    <!-- Tambahkan file instrumental legal milikmu ke assets/music/ dan ubah src di sini. -->
+    <source src="assets/music/instrumental.mp3" type="audio/mpeg">
+  </audio>
+
+  <main class="shell">
+    <div class="topline"><span>PERSONAL LITTLE CORNER</span><span>09 · 11 · 2026</span></div>
+
+    <section class="screen active" id="intro" aria-labelledby="introTitle">
+      <div class="window-card intro-card">
+        <div class="window-bar"><div class="window-lights"><i></i><i></i><i></i></div><span>little-surprise.exe</span><span class="window-menu">···</span></div>
+        <div class="intro-content">
+          <div class="tiny-stamp">A SMALL THING, MADE WITH CARE</div>
+          <div class="sparkle-orbit"><span>✦</span><span>♡</span><span>✧</span></div>
+          <p class="eyebrow">hello, birthday girl</p>
+          <h1 id="introTitle">Hi, <em>Zahra.</em></h1>
+          <p class="intro-copy">Ada sesuatu kecil yang ingin disampaikan.<br>Nothing complicated, just a little surprise for you.</p>
+          <div class="loading-line"><span></span></div>
+          <p class="mono status" id="statusText">checking something special...</p>
+          <button class="primary-btn" id="startBtn">Open your little surprise <span>↗</span></button>
+          <p class="micro-note">best opened with a little curiosity ♡</p>
+        </div>
+      </div>
+      <div class="floating-note note-left">made with<br>a little code <b>♡</b></div>
+      <div class="floating-note note-right">for one<br>special human ✿</div>
+    </section>
+
+    <section class="screen" id="error" aria-labelledby="errorTitle">
+      <div class="window-card error-card">
+        <div class="window-bar"><div class="window-lights"><i></i><i></i><i></i></div><span>system-check.log</span><span class="window-menu">···</span></div>
+        <div class="error-content">
+          <div class="error-icon">!</div>
+          <p class="eyebrow">oops, one tiny issue</p>
+          <h2 id="errorTitle">Something is<br><em>too lovely</em> today.</h2>
+          <div class="terminal">
+            <p><span>></span> birthday.detected(<b>"Zahra"</b>)</p>
+            <p><span>></span> happiness.level = <b>high</b></p>
+            <p><span>></span> reason = <b>"it's your day!"</b></p>
+            <p class="terminal-warning">! recommendation: celebrate immediately</p>
+          </div>
+          <p class="body-copy">The system found a very important date.<br>Should we fix this... by celebrating?</p>
+          <button class="primary-btn" id="fixBtn">FIX THIS ISSUE <span>♡</span></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" id="birthday" aria-labelledby="birthdayTitle">
+      <div class="birthday-wrap">
+        <div class="confetti" id="confetti" aria-hidden="true"></div>
+        <div class="cake-art" aria-hidden="true"><span class="candle">✦</span><span class="cake">🎂</span><span class="cake-heart">♡</span></div>
+        <p class="eyebrow">today is all about you</p>
+        <h2 id="birthdayTitle">Happy Birthday,<br><em>Zahra!</em></h2>
+        <p class="birthday-lead">A little reminder that you deserve<br>all the good things coming your way.</p>
+        <div class="date-pill">MONDAY · 09 NOVEMBER 2026</div>
+        <button class="primary-btn" id="letterBtn">There's a little letter for you <span>↓</span></button>
+      </div>
+    </section>
+
+    <section class="screen" id="letter" aria-labelledby="letterTitle">
+      <div class="letter-layout">
+        <div class="letter-side"><span class="side-flower">✿</span><p>JUST FOR YOU</p><span class="side-heart">♡</span></div>
+        <article class="letter-paper">
+          <div class="paper-top"><span>09.11.26</span><span>୨୧</span></div>
+          <p class="eyebrow">a note for Zahra</p>
+          <h2 id="letterTitle">Dear <em>Zahra,</em></h2>
+          <div class="letter-text">
+            <p>Happy birthday! Semoga di umur yang baru ini, hal-hal baik lebih sering menemukan jalannya ke kamu.</p>
+            <p>Semoga hari-harimu dipenuhi alasan untuk tersenyum, orang-orang yang tulus, dan kesempatan untuk melakukan banyak hal yang kamu suka.</p>
+            <p>Kalau nanti ada hari yang terasa berat, I hope you remember that you deserve kindness too. Jangan lupa istirahat, makan yang teratur, dan tetap jadi Zahra dengan caramu sendiri.</p>
+            <p>Thank you for being someone lovely to know. I'm quietly cheering for you, today and on the ordinary days too.</p>
+          </div>
+          <div class="letter-sign">Take care, okay? <span>♡</span></div>
+        </article>
+      </div>
+      <button class="text-btn" id="lastBtn">one last thing <span>→</span></button>
+    </section>
+
+    <section class="screen" id="ending" aria-labelledby="endingTitle">
+      <div class="ending-card">
+        <div class="ending-stars">✧　♡　✦</div>
+        <p class="eyebrow">that's the little surprise</p>
+        <h2 id="endingTitle">Keep blooming,<br><em>Zahra.</em></h2>
+        <p class="ending-copy">I hope this new chapter is gentle with you.<br>More laughter, more little adventures,<br>and more moments worth remembering.</p>
+        <div class="signature">— from someone who wishes you well <span>♡</span></div>
+        <div class="ending-actions">
+          <button class="primary-btn" id="replayBtn">Replay the surprise ↻</button>
+          <button class="text-btn" id="secretBtn">psst... one more click?</button>
+        </div>
+        <p class="secret-message" id="secretMessage" hidden>Hehe, ketahuan masih penasaran. Semoga hari ini jadi salah satu hari baikmu. ♡</p>
+      </div>
+    </section>
+
+    <footer><span>crafted with <b>♡</b> & a little bit of code</span><span>© 2026 · for Zahra</span></footer>
+  </main>
+  <script src="js/script.js"></script>
+</body>
+</html>
