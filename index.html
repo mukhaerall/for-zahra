@@ -91,6 +91,7 @@
     </section>
 
     <section class="screen" id="letter" aria-labelledby="letterTitle">
+      <canvas class="garden" id="letterGarden" hidden aria-hidden="true"></canvas>
       <button class="envelope" id="envelope" aria-label="Open the envelope"><span class="env-flap"></span><span class="env-heart">♡</span><span class="env-hint">tap to open</span></button>
       <div class="letter-layout" id="letterLayout" hidden>
         <div class="letter-side"><span class="side-flower">✿</span><p>JUST FOR YOU</p><span class="side-heart">♡</span></div>
@@ -110,12 +111,12 @@
       <button class="text-btn" id="lastBtn" hidden>one last thing <span>→</span></button>
     </section>
 
-    <section class="screen" id="gallery" aria-labelledby="galleryTitle">
-      <div class="gallery-wrap">
-        <p class="eyebrow">little moments</p>
-        <h2 id="galleryTitle">A few things <em>worth keeping</em></h2>
-        <div class="polaroids"><figure class="polaroid"><div class="photo">✿</div><figcaption>momen kecil pertama</figcaption></figure><figure class="polaroid"><div class="photo">✿</div><figcaption>hari yang menyenangkan</figcaption></figure><figure class="polaroid"><div class="photo">✿</div><figcaption>tawa yang diingat</figcaption></figure></div>
-        <button class="text-btn" id="galleryBtn">one last thing <span>→</span></button>
+    <section class="screen" id="bloom" aria-labelledby="bloomTitle">
+      <div class="bloom-wrap">
+        <p class="eyebrow">a little bouquet, just for you</p>
+        <h2 id="bloomTitle">Lily &amp; <em>krisan</em></h2>
+        <div class="bouquet-stage"><canvas id="bouquetCv" hidden role="img" aria-label="Buket bunga lily pink dan krisan yang mekar satu per satu"></canvas></div>
+        <button class="text-btn" id="bloomNext">one last thing <span>→</span></button>
       </div>
     </section>
 
@@ -129,6 +130,7 @@
         <div class="signature">— from someone who wishes you well <span>♡</span></div>
         <div class="ending-actions">
           <button class="primary-btn" id="replayBtn">Replay the surprise ↻</button>
+          <button class="text-btn" id="flowerBtn">lihat bunganya mekar lagi ✿</button>
           <button class="text-btn" id="secretBtn">psst... one more click?</button>
         </div>
         <p class="secret-message" id="secretMessage" hidden>Hehe, ketahuan masih penasaran. Semoga hari ini jadi salah satu hari baikmu. ♡</p>
