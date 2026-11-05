@@ -226,6 +226,7 @@ $("envelope").addEventListener("click", () => {
   $("envelope").querySelector(".env-hint").textContent = "bunga mekar dulu ✿";
   gardenAt = Infinity;
   letterGarden.start();
+  letterFront.start();
   setTimeout(() => $("envelope").classList.add("open"), reduce ? 0 : 2500);
   setTimeout(() => {
     $("envelope").hidden = true;
@@ -233,6 +234,7 @@ $("envelope").addEventListener("click", () => {
     $("lastBtn").hidden = false;
     gardenAt = letterGarden.now();
     letterGarden.rebuild();
+    letterFront.start();
     envBusy = false;
   }, reduce ? 0 : 3200);
 });
@@ -298,7 +300,7 @@ $("secretBtn").addEventListener("click", () => {
 });
 
 function resetAll() {
-  gardenAt = Infinity; letterGarden.stop(); bouquet.stop();
+  gardenAt = Infinity; letterGarden.stop(); letterFront.stop(); bouquet.stop();
   resetFix();
   $("secretMessage").hidden = true;
   $("secretBtn").textContent = "psst... one more click?";
@@ -454,32 +456,24 @@ function scene(canvas, W0, H0, layout) {
 }
 
 const shellW = () => document.querySelector(".shell").clientWidth || 360;
-const gardenUnit = () => clamp(shellW() * 0.13, 40, 76);
-const letterPad = () => Math.round(gardenUnit() * 1.5);
+const gardenUnit = () => clamp(shellW() * 0.17, 48, 92);
+const letterPad = () => Math.round(gardenUnit() * 2.1);
 let gardenAt = Infinity; // seconds when the letter appears; the lower flowers bloom after that
 
 // Flowers frame the letter from behind: corner clusters on top, then corners and the sides once the letter is open.
 const letterGarden = scene($("letterGarden"), 0, 0, (W, H) => {
   const u = gardenUnit(), pw = Math.min(670, shellW()), x0 = (W - pw) / 2, x1 = x0 + pw, T = Math.PI;
   const late = (i) => gardenAt + 0.15 + i * 0.2;
-  const items = [
-    // [kind, x, y, R, rot, delay, seed, leaf angles]
-    ["l", x0 + 0.5 * u, 1.05 * u, u, -0.3, 0, 1, [-0.25, 0.55, T + 0.55]],
-    ["k", x0 + 1.9 * u, 0.6 * u, 0.58 * u, 0.2, 0.3, 2, [-0.7]],
-    ["k", x1 - 0.75 * u, 0.95 * u, 0.85 * u, 0.1, 0.15, 3, [-T + 0.5, -0.5]],
-    ["l", x1 - 2.2 * u, 0.5 * u, 0.55 * u, 0.6, 0.45, 4, [T + 0.4]],
-    ["k", x0 + 0.9 * u, H - 0.95 * u, 0.8 * u, 0.3, late(0), 5, [T - 0.4, T + 0.5]],
-    ["l", x0 + 2.4 * u, H - 0.62 * u, 0.5 * u, -0.5, late(1), 6, [-0.2]],
-    ["l", x1 - 0.85 * u, H - 1.0 * u, 0.85 * u, 0.25, late(2), 7, [0.3, -T + 0.2]],
-    ["k", x1 - 2.25 * u, H - 0.5 * u, 0.42 * u, 0, late(3), 8, []]
-  ];
+  const items = [];
   if (x0 > 0.7 * u) items.push(
-    ["k", x0 - 0.1 * u, H * 0.42, 0.55 * u, 0.1, late(4), 9, [T + 0.8, T - 0.8]],
-    ["l", x1 + 0.1 * u, H * 0.62, 0.6 * u, 0.4, late(5), 10, [0.8, -0.8]]
+    ["k", x0 - 0.1 * u, H * 0.4, 0.6 * u, 0.1, late(6), 9, [T + 0.8, T - 0.8]],
+    ["l", x1 + 0.1 * u, H * 0.62, 0.66 * u, 0.4, late(7), 10, [0.8, -0.8]]
   );
   if (x0 > 1.4 * u) items.push(
-    ["l", x0 - 0.55 * u, H * 0.72, 0.42 * u, -0.4, late(6), 11, [T - 0.6]],
-    ["k", x1 + 0.5 * u, H * 0.33, 0.4 * u, 0, late(7), 12, [0.6]]
+    ["l", x0 - 0.6 * u, H * 0.7, 0.48 * u, -0.4, late(8), 11, [T - 0.6]],
+    ["k", x1 + 0.55 * u, H * 0.32, 0.44 * u, 0, late(9), 12, [0.6]],
+    ["k", x0 - 0.5 * u, H * 0.22, 0.3 * u, 0, late(10), 17, []],
+    ["k", x1 + 0.45 * u, H * 0.84, 0.32 * u, 0, late(11), 18, []]
   );
   const leaves = [], fl = [];
   items.forEach(([k, x, y, R, rot, d, seed, lv]) => {
@@ -488,24 +482,54 @@ const letterGarden = scene($("letterGarden"), 0, 0, (W, H) => {
   });
   const ops = [...leaves, ...fl]; ops.end = isFinite(gardenAt) ? gardenAt + 4.4 : Infinity; return ops;
 });
+
+// Corsages pinned on the four corners of the envelope / paper (drawn in front, but kept clear of every line of text and ornament).
+const letterFront = scene($("letterFront"), 0, 0, (W, H) => {
+  const cv = $("letterFront"), C = cv.getBoundingClientRect(), L0 = document.querySelector(".letter-layout"), L = (L0.hidden ? $("envelope") : L0).getBoundingClientRect(), ops = [];
+  ops.end = 3.6;
+  if (!L.width) return ops;
+  const u = gardenUnit(), lx0 = L.left - C.left, lx1 = L.right - C.left, ly0 = L.top - C.top, ly1 = L.bottom - C.top, prot = [];
+  const pad = 4, add = (r) => prot.push([r.left - C.left - pad, r.top - C.top - pad, r.right - C.left + pad, r.bottom - C.top + pad]);
+  if (L0.hidden) document.querySelectorAll("#envelope .env-hint,#envelope svg,#envelope .env-heart").forEach((e) => add(e.getBoundingClientRect()));
+  if (!L0.hidden) {
+    document.querySelectorAll(".side-flower,.side-heart,.paper-top span,.letter-side p").forEach((e) => add(e.getBoundingClientRect()));
+    document.querySelectorAll(".letter-paper .eyebrow,#letterTitle,.letter-text p,.letter-sign").forEach((e) => { const rg = document.createRange(); rg.selectNodeContents(e); [...rg.getClientRects()].forEach(add); });
+  }
+  const fit = (x, y, R) => { // biggest radius that keeps clear of text and ornaments
+    for (let r = R; r > 0.28 * u; r -= 0.04 * u) if (prot.every(([a, b, c, d]) => Math.hypot(x - clamp(x, a, c), y - clamp(y, b, d)) > r)) return r;
+    return 0.28 * u;
+  };
+  [[-1, -1, "l", 1.0, -0.4, 21], [1, -1, "k", 0.9, 0.2, 22], [-1, 1, "k", 0.9, 0.3, 23], [1, 1, "l", 1.05, 0.45, 24]].forEach(([sx, sy, k, rf, rot, seed], i) => {
+    const x = clamp((sx < 0 ? lx0 : lx1) - sx * 0.12 * u, 0.9 * rf * u, W - 0.9 * rf * u), y = clamp((sy < 0 ? ly0 : ly1) - sy * 0.1 * u, 0.9 * rf * u, H - 0.9 * rf * u), R = fit(x, y, rf * u), a = Math.atan2(sy, sx), d = 0.1 + i * 0.18;
+    [-0.5, 0.5, -0.85, 0.85].forEach((o) => ops.unshift(leafOp(x, y, R * (Math.abs(o) > 0.6 ? 1.25 : 1.6), a + o, d)));
+    ops.push(flower(k, x, y, R, d, rot, seed));
+    // a small bud on the outer side of the corner
+    const bx = x + sx * R * 1.15, by = y + sy * R * 0.95;
+    ops.push(flower(k === "l" ? "k" : "l", bx, by, R * 0.42, d + 0.25, -rot, seed + 10));
+    // a little flower resting on the paper edge
+    const ex = clamp(x - sx * 1.75 * u, 0.5 * u, W - 0.5 * u), ey = clamp((sy < 0 ? ly0 : ly1) + sy * 0.02 * u, 0.5 * u, H - 0.5 * u), er = fit(ex, ey, 0.42 * u);
+    ops.unshift(leafOp(ex, ey, er * 1.7, sy < 0 ? -0.5 - (sx < 0 ? 0 : 2.14) : 0.5 + (sx < 0 ? 0 : -2.14), d + 0.3));
+    ops.push(flower(k === "l" ? "l" : "k", ex, ey, er, d + 0.35, rot * 2, seed + 20));
+  });
+  return ops;
+});
 function fitLetter() { const l = $("letter"); l.style.paddingTop = l.style.paddingBottom = letterPad() + "px"; }
 fitLetter();
-addEventListener("resize", () => { fitLetter(); letterGarden.resize(); bouquet.resize(); });
+addEventListener("resize", () => { fitLetter(); letterGarden.resize(); letterFront.resize(); bouquet.resize(); });
 
-// The finishing bouquet: five flowers on curved stems, tied with a ribbon.
-const bouquet = scene($("bouquetCv"), 0, 0, (W, H) => {
-  const bx = W * 0.5, by = H * 0.84, ops = [];
-  const F = [ // kind, x, y (fractions), R (fraction of W), delay, rot, seed
-    ["l", 0.25, 0.43, 0.21, 0.1, -0.35, 2], ["l", 0.77, 0.41, 0.2, 0.3, 0.3, 3],
-    ["k", 0.35, 0.62, 0.12, 0.7, 0.2, 4], ["k", 0.66, 0.62, 0.12, 0.9, -0.2, 5],
-    ["k", 0.5, 0.25, 0.2, 0.5, 0, 1]
-  ];
-  [[-2.5, 0.3, 0.2], [-0.65, 0.3, 0.25], [-2.1, 0.24, 0.35], [-1.05, 0.24, 0.4], [-2.85, 0.2, 0.5], [-0.3, 0.2, 0.55]]
-    .forEach(([a, l, d]) => ops.push(leafOp(bx, by - H * 0.05, W * l * 1.2, a, d)));
-  F.forEach(([, fx, fy], i) => ops.push(stemOp(bx, by, bx + (fx * W - bx) * 0.2, by - (by - fy * H) * 0.55, fx * W, fy * H, 0.05 + i * 0.08)));
-  F.forEach(([k, fx, fy, r, d, rot, seed]) => ops.push(flower(k, fx * W, fy * H, r * W, d, rot, seed)));
-  ops.push(ribbon(bx, by + 4, 1.6));
-  ops.end = 1e9; return ops;
-});
+// The finishing bouquet: a real 3D scene (Three.js / WebGL) built in js/bouquet3d.js.
+const bouquet = (() => {
+  const cv = $("bouquetCv"); let api = null, failed = false;
+  return {
+    start() {
+      cv.hidden = false;
+      if (!api && !failed) { try { api = Bouquet3D.create(cv, reduce); } catch (e) { failed = true; console.warn("WebGL tidak tersedia", e); } }
+      if (api) api.start(); else { cv.hidden = true; $("bqFallback").hidden = false; }
+    },
+    stop() { if (api) api.stop(); cv.hidden = true; },
+    resize() { if (api) api.resize(); },
+    get api() { return api; }
+  };
+})();
 $("bloomNext").addEventListener("click", () => showScreen("ending"));
 $("flowerBtn").addEventListener("click", () => showScreen("bloom"));

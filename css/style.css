@@ -79,5 +79,9 @@ html{-webkit-text-size-adjust:100%}button{touch-action:manipulation;-webkit-tap-
 /* ---- v6: bouquet screen + flowers behind the letter ---- */
 .garden{top:0;left:50%;right:auto;bottom:auto;width:100vw;height:100%;transform:translateX(-50%)}
 .bloom-wrap{text-align:center;width:min(520px,100%)}.bloom-wrap h2{font-size:clamp(38px,8vw,54px);line-height:1.05;margin:8px 0 6px}
-.bouquet-stage{position:relative;width:min(400px,100%);aspect-ratio:4/5;margin:0 auto;background:radial-gradient(ellipse 60% 52% at 50% 46%,#fbd9e6aa,#fbd9e600 72%)}
+.bouquet-stage{position:relative;width:min(520px,100%);aspect-ratio:460/540;touch-action:pan-y;margin:0 auto;background:radial-gradient(ellipse 60% 52% at 50% 46%,#f9cfe0cc,#f9cfe000 74%)}
 .bouquet-stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block}.bouquet-stage canvas[hidden]{display:none}
+
+.garden.front{z-index:2}
+.bq-fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:34px;letter-spacing:.2em;margin:0}.bq-fallback[hidden]{display:none}
+.bouquet-stage canvas{cursor:grab}

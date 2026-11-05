@@ -92,6 +92,7 @@
 
     <section class="screen" id="letter" aria-labelledby="letterTitle">
       <canvas class="garden" id="letterGarden" hidden aria-hidden="true"></canvas>
+      <canvas class="garden front" id="letterFront" hidden aria-hidden="true"></canvas>
       <button class="envelope" id="envelope" aria-label="Open the envelope"><span class="env-flap"></span><span class="env-heart">♡</span><span class="env-hint">tap to open</span></button>
       <div class="letter-layout" id="letterLayout" hidden>
         <div class="letter-side"><span class="side-flower">✿</span><p>JUST FOR YOU</p><span class="side-heart">♡</span></div>
@@ -115,7 +116,7 @@
       <div class="bloom-wrap">
         <p class="eyebrow">a little bouquet, just for you</p>
         <h2 id="bloomTitle">Lily &amp; <em>krisan</em></h2>
-        <div class="bouquet-stage"><canvas id="bouquetCv" hidden role="img" aria-label="Buket bunga lily pink dan krisan yang mekar satu per satu"></canvas></div>
+        <div class="bouquet-stage"><canvas id="bouquetCv" hidden role="img" aria-label="Buket bunga lily pink dan krisan yang mekar satu per satu"></canvas><p class="bq-fallback" id="bqFallback" hidden>🌸 ✿ 🌷 ✿ 🌸</p></div>
         <button class="text-btn" id="bloomNext">one last thing <span>→</span></button>
       </div>
     </section>
@@ -139,6 +140,8 @@
 
     <footer><span>crafted with <b>♡</b> &amp; a little bit of code</span><span>© 2026 · for Zahra</span></footer>
   </main>
+  <script src="js/vendor/three.min.js"></script>
+  <script src="js/bouquet3d.js"></script>
   <script src="js/script.js"></script>
 </body>
 </html>
